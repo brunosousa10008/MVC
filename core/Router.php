@@ -1,4 +1,5 @@
 <?php
+
 class Router {   
     private array $routes;
 
@@ -15,7 +16,7 @@ class Router {
             $callback();
         } else {
             http_response_code(404);
-            view("404");
+            Helpers::view("404");
         }
     }
 
