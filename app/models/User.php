@@ -1,14 +1,7 @@
 <?php
-class User {
-    private $pdo;
-
-    public function __construct() {
-        $db = new ConnectDatabase();
-        $this->pdo = $db->getPDO();
-
-    }
-
-    public function login(string $email, string $password) {
+class User extends Model
+{
+    public function login(string $email) {
         try {
             $sql = "SELECT * FROM users 
                     WHERE email = :email 
@@ -18,23 +11,11 @@ class User {
             $stmt->bindParam(':email', $email, PDO::PARAM_STR);
             $stmt->execute();
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
-            if ($user && password_verify($password, $user['password'])) {
-                $_SESSION['authentication'] = $user['id'];
-                return true;
-
-            } else {
-                return false;
-            }
+            return $user;
         } catch (PDOException $e) {
             error_log("Erro na conexão ou execução da consulta: " . $e->getMessage());
             return false;
 
         }
     }  
-
-    public function logout(){
-        if (isset($_SESSION['authentication']) && !empty($_SESSION['authentication'])){
-            session_destroy();
-        }
-    }
 } 
