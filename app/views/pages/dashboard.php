@@ -1,5 +1,6 @@
 <?php
-  if (isset($_SESSION['authentication']) && !empty($_SESSION['authentication'])):
+  if (!isset($_SESSION['authentication']) && empty($_SESSION['authentication']))
+    header("Location: /login");
 ?> 
 
 <!DOCTYPE html>
@@ -33,9 +34,3 @@
   </main>
 </body>
 </html>
-<?php
-else:
-    header("Location: /login");
-    exit;
-endif;
-?>
